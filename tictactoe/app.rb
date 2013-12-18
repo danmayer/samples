@@ -27,6 +27,39 @@ end
       end
   end
     
+  def winner
+    [0,1,2].each do |column|
+      line = []
+      [0,1,2].each do |row|
+        puts "#{column} #{row}" 
+        line<<@board[column][row] 
+      end
+      matchingmarks = line.select{|el| el==line.first}.compact.length
+      if matchingmarks ==3
+        return true
+      end 
+    end
+    
+    [0,1,2].each do |column|
+      line = []
+      [0,1,2].each do |row|
+        puts "#{column} #{row}" 
+        line<<@board[row][column] 
+      end
+      matchingmarks = line.select{|el| el==line.first}.compact.length
+      if matchingmarks ==3
+        return true
+      end 
+    end
+    
+    line = [@board[0][0], @board[0][1], @board[0][2]]
+    matchingmarks = line.select{|el| el==line.compact.first}.length
+    if matchingmarks ==3
+      return true
+    end
+    return false
+  end
+  
   def make_move(move, mark)
     if move.match("top")
        column = 0
@@ -34,7 +67,7 @@ end
        column = 1
     elsif move.match("bottom")
        column = 2
-  end
+  end  
 
     if move.match("left")
        row = 0
@@ -44,8 +77,8 @@ end
        row = 2
   end
      
-    if column && row 
-       @board[column] [row] = mark
+    if column && row && @board[column][row]==nil
+       @board[column][row] = mark
     else
       puts "Invalid move. Please try again."
       false
@@ -66,10 +99,16 @@ while(move!='q')
   board.print
   puts "enter your move player #{player.mark}"
   move = gets.chomp
-  result = board.make_move(move, player.mark)
-  unless result == false
-    move_number += 1 
-  end
+  if move != "q"
+    result = board.make_move(move, player.mark)
+    unless result == false
+      move_number += 1 
+      if board.winner
+        puts "Winner!"
+        break
+      end 
+    end
+  end 
 end 
 puts "game over!"
 end
