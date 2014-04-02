@@ -1,0 +1,32 @@
+<h3>Photo Details</h3>
+<%= @photo.name%>
+<br/>
+<%= @photo.description %>
+<br/>
+
+<a href="/photos/<%= @photo.id %>/edit">edit</a>
+
+<form action="/photos/delete/<%= @photo.id %>" method="post">
+  <div style="margin:0;padding:0">
+    <input name="_method" type="hidden" value="delete" />
+    <input type="submit" name="submit" value="Delete" class="submit" />
+  </div>
+</form>
+
+<hr/>
+<a href="/photos">view all photos</a>
+
+<hr/>
+<h3>comments</h3>
+<ul>
+  <% @comments.each do |comment| %>
+    <li><%= comment.content %></li>
+  <% end %>
+</ul>
+
+<form action="/comments/create" method="post">
+  <input type="hidden" name="photo_id" value="<%= @photo.id %>" />
+  <label>content</label>
+  <input name="content" type="text">
+  <input type="submit" name="submit" value="add comment"/>
+</form>

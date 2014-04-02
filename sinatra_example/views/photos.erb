@@ -1,0 +1,21 @@
+<ul>
+  <li><a href="/photos/new">create a new photo</a></li>
+  <% @photos.each do |photo| %>
+    <li>
+      <div>
+        <a href="/photos/<%= photo.id %>">
+          <%= photo.name %>
+        </a>
+      </div>
+      <div><%= photo.description %></div> 
+
+      <form action="/photos/delete/<%= photo.id %>" method="post">
+      <div style="margin:0;padding:0">
+        <input name="_method" type="hidden" value="delete" />
+        <input type="submit" name="submit" value="Delete" class="submit" />
+      </div>
+      </form>
+
+    </li>
+  <% end %>
+</ul>

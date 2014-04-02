@@ -11,11 +11,12 @@ data = RestClient.get "http://business.usa.gov/api/ss/#{FORMAT}"
 #fix data formatting
 data = data.force_encoding('BINARY').encode('UTF-8', :invalid => :replace, :undef => :replace, :replace => '').delete!("\r").gsub(/\" \n/,"\"\n").gsub(/\\\"/,"__")
 
-#write data to a file
-File.open(OUTPUT_FILE, "w") {|f| f.write(data) }
+# write data to a file
+# File.open(OUTPUT_FILE, "w") {|f| f.write(data) }
 
 count = 0
-CSV.parse(data, {:headers => :first_row}) do |row|
+CSV.parse(data) do |row|
+  puts row if count == 5
   count += 1
 end
 
